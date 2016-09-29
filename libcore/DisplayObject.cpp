@@ -986,6 +986,22 @@ DisplayObject::MaskRenderer::~MaskRenderer()
     if (_mask) _renderer.disable_mask();
 }
 
+void DisplayObject::registerEventCallback(HostInterface* handler) {
+        _stage.registerEventCallback(handler);
+}
+
+void DisplayObject::callInterface(const HostInterface::Message& e) const {
+        _stage.callInterface(e);
+}
+
+template<typename T> T DisplayObject::callInterface(const HostInterface::Message& e) const {
+        return _stage.callInterface(e);
+}
+
+bool DisplayObject::queryInterface(const std::string& what) const {
+	return _stage.queryInterface(what);
+}
+
 namespace {
 
 as_value

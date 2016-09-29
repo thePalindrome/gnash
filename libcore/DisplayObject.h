@@ -41,6 +41,7 @@
 #include "SWFCxForm.h"
 #include "dsodefs.h" 
 #include "snappingrange.h"
+#include "HostInterface.h"
 #ifdef USE_SWFTREE
 # include "tree.hh"
 #endif
@@ -954,6 +955,36 @@ public:
     void focusRect(boost::tribool focus) {
         _focusRect = focus;
     }
+    
+    /// A callback to the GUI (or whatever is listening) for sending
+    /// events and receiving replies. Used for ActionScript interface
+    /// with the gui (Mouse visibility, Stage alignment etc and System
+    /// information, for instance).
+    ///
+    /// See callInterface method
+    void registerEventCallback(HostInterface* handler);
+
+    /// Call the hosting application without expecting a reply.
+    //
+    /// @param e    The message to send to the interface.
+    void callInterface(const HostInterface::Message& e) const;
+
+    /// Call the hosting application, ensuring a return of the requested type.
+    //
+    /// If the return type is other than the requested type, this represents
+    /// a bug in the hosting application. An error is logged and the default
+    /// constructed type T is returned. This may cause unexpected
+    /// ActionScript behaviour, but is otherwise safe.
+    //
+    /// @tparam T   The return type expected. 
+    /// @param e    The message to send to the interface.
+    template<typename T> T callInterface(const HostInterface::Message& e) const;
+    
+    /// Ask the host interface a question.
+    //
+    /// @param what The question to pose.
+    /// @return     The answer (true for yes, false for no).
+    bool queryInterface(const std::string& what) const;
 
 protected:
     
