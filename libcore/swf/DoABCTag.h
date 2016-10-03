@@ -24,17 +24,26 @@
 #include "SWF.h" // for tag_type definition
 #include "MovieClip.h" // for inlines
 #include "SWFStream.h" // for inlines
-#include "AbcBlock.h"
-#include "Machine.h"
-#include "VM.h"
+//#include "AbcBlock.h"
+/*#include "Machine.h"
+#include "VM.h"*/
 
 // Forward declarations
 namespace gnash {
 	class movie_definition;
+    namespace abc {
+        class AbcBlock;
+    }
 }
 
 namespace gnash {
+namespace abc {
+    class AbcBlock
+    {
+    };
+}
 namespace SWF {
+
 
 /// SWF Tag DoABC (72)
 //
@@ -45,8 +54,10 @@ public:
 
     virtual void executeActions(MovieClip* m, DisplayList& /* dlist */) const
 	{
+        log_debug("Executing ABC");
+        m->queryInterface("Attempting to execute AVM2 code! Continue?");
 
-        if (!_abc) {
+        /* if (!_abc) {
             log_debug("Not executing ABC tag because we failed to parse it");
             return;
         }
@@ -61,7 +72,7 @@ public:
 		log_debug("Begin execute AbcBlock.");
 		mach->initMachine(_abc);
 		log_debug("Executing machine...");
-		mach->execute();
+		mach->execute(); */
 	}
 
     void read(SWFStream* /*in*/)
@@ -71,6 +82,7 @@ public:
 	static void loader(SWFStream& in, TagType tag, movie_definition& m,
             const gnash::RunResources&)
 	{
+        log_debug("ABC is still connected");
 
         if (!m.isAS3()) {
             IF_VERBOSE_MALFORMED_SWF(
@@ -88,11 +100,11 @@ public:
 		}
 
         std::unique_ptr<abc::AbcBlock> block(new abc::AbcBlock());
-		if (!block->read(in)) {
+		/*if (!block->read(in)) {
             log_error("ABC parsing error while processing DoABCTag. This "
                     "tag will never be executed");
             return;
-        }
+        }*/
 
         // _abc = block;
 		boost::intrusive_ptr<DoABCTag> ABCtag(new DoABCTag(block.release()));
@@ -102,7 +114,7 @@ public:
             log_parse(_("-- actions in frame %d"), m.get_loading_frame());
 		);
 
-		m.addControlTag(ABCtag); // ownership transferred
+		m.addControlTag(ABCtag); // ownership transferred */
 	}
 
 private:

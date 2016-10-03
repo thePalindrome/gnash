@@ -140,7 +140,6 @@ libgnashcore_la_SOURCES = \
 	MovieLoader.cpp \
 	$(FREETYPE_SOURCES) \
 	$(NULL)
-
 if ENABLE_AVM2
 libgnashcore_la_SOURCES += \
 	abc/CodeStream.cpp \
@@ -152,7 +151,6 @@ libgnashcore_la_SOURCES += \
 	abc/AbcBlock.cpp \
 	$(NULL)
 endif
-
 noinst_HEADERS = \
 	VirtualClock.h \
 	SystemClock.h \
@@ -217,8 +215,8 @@ noinst_HEADERS = \
 	Timers.h \
 	Video.h \
 	MovieLoader.h \
+	swf/DoABCTag.h \
 	$(NULL)
-
 if ENABLE_AVM2
 noinst_HEADERS += \
 	abc/CodeStream.h \

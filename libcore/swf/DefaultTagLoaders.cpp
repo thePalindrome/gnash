@@ -54,6 +54,7 @@
 #include "ImportAssetsTag.h"
 #include "ExportAssetsTag.h"
 #include "SoundStreamHeadTag.h"
+#include "DoABCTag.h"
 #ifdef ENABLE_AVM2
 # include "SymbolClassTag.h"
 # include "DoABCTag.h"
@@ -228,6 +229,8 @@ addDefaultLoaders(TagLoadersTable& table)
         {SWF::DEFINEBITSJPEG4,DefineBitsTag::loader},
         // 777
         {SWF::REFLEX,reflex_loader}
+        ,{SWF::DOABC,DoABCTag::loader},
+        {SWF::DOABCDEFINE,DoABCTag::loader}
 #ifdef ENABLE_AVM2
         // The following tags are AVM2 only.
         // 72 -- AS3 codeblock.
